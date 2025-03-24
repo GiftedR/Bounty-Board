@@ -10,6 +10,7 @@
     "ng": "ng",
     "start": "ng serve",
     "electron": "ng build && electron .",
+    "electron:watch" : "ng serve & wait && electron . --watch",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

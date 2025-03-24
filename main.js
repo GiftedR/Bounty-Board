@@ -1,6 +1,8 @@
 const { app, BrowserWindow } = require('electron/main')
 const path = require('node:path');
 
+let watching = app.commandLine.hasSwitch("watch");
+
 const createWindow = (path = 'dist/bounty-board/browser/index.html') => { // Default Location for build output of angular apps
 	let notprod = process.env.NODE_ENV !== 'production';
 
@@ -15,14 +17,20 @@ const createWindow = (path = 'dist/bounty-board/browser/index.html') => { // Def
 		}
 	});
 
-	win.loadFile(path);
+	// win.loadFile(path);
+	win.loadURL(path);
 	win.removeMenu();
 	notprod && win.webContents.openDevTools({mode: 'undocked'});
 	return win;
 }
 
 app.whenReady().then(() => {
-	createWindow()
+	if (watching)
+	{
+		createWindow("http://localhost:4200");
+	} else {
+		createWindow();
+	}
 
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) {
